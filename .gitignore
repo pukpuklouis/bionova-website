@@ -1,0 +1,12 @@
+.DS_Store
+*.log
+node_modules/
+.vscode/
+*.swp
+.env
+dist/
+.astro/
+.cache/
+.vercel/
+.output/
+.cloudflare/

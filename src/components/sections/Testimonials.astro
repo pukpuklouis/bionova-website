@@ -1,0 +1,74 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+interface Testimonial {
+  quote: string;
+  author: string;
+  image: ImageMetadata;
+}
+
+const testimonials: Testimonial[] = [
+  {
+    quote: '連續吃兩週，晨起疲憊感消失，健身後肌肉痠痛明顯減少！',
+    author: '32歲行銷主管',
+    image: (await import('/public/images/male_avatar.webp')).default
+  },
+  {
+    quote: '皮膚暗沉改善，同事問我是不是去了美白針！',
+    author: '28歲空服員',
+    image: (await import('/public/images/female_avatar.webp')).default
+  }
+];
+
+// Import images
+const images = import.meta.glob<{ default: ImageMetadata }>('/public/images/*.{jpeg,jpg,png,gif,webp}');
+
+---
+
+<section 
+  class="max-w-3xl mx-auto py-24 bg-[url('/images/testimonial_bg.webp')] bg-cover bg-bottom bg-no-repeat bg-gray-500/60 bg-blend-overlay relative overflow-hidden" 
+  aria-labelledby="testimonials-title"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 id="testimonials-title" class="text-5xl font-bold drop-shadow-xl tracking-tight bg-gradient-to-r to-chartreuse-600 from-azure-600/80 bg-clip-text text-transparent">
+        真實見證
+      </h2>
+      <p class="mt-4 text-lg leading-8 text-azure-100">
+        聽聽我們的客戶怎麼說
+      </p>
+    </div>
+    
+    <div class="mx-auto mt-16 sm:mt-20">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
+        {testimonials.map((testimonial) => (
+          <div class="relative">
+            <figure class="h-full rounded-2xl border-3 border-pumpkin-400/40 bg-gradient-to-r from-pumpkin-700/50 to-pumpkin-200/50 p-6 sm:p-8 transition-transform hover:scale-[1.02]">
+              <blockquote class="text-gray-100">
+                <p class="text-lg leading-relaxed before:content-['"'] after:content-['"']">
+                  {testimonial.quote}
+                </p>
+              </blockquote>
+              <figcaption class="mt-6 flex items-center gap-x-4">
+                <div class="h-12 w-12 overflow-hidden rounded-full border-2 border-gray-300/60">
+                  <Image
+                    src={testimonial.image}
+                    alt={`${testimonial.author}的照片`}
+                    width={48}
+                    height={48}
+                    loading="lazy"
+                    decoding="async"
+                    class="h-full w-full object-cover"
+                  />
+                </div>
+                <div class="text-base font-semibold text-gray-100">
+                  {testimonial.author}
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

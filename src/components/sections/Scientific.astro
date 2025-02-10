@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { FlaskConical } from 'lucide-react';
+
+const certifications = [
+  {
+    name: 'SGS 328項無毒檢測',
+    icon: '✔',
+    description: '嚴格把關，確保產品安全性'
+  },
+  {
+    name: '美國FDA認證廠生產',
+    icon: '✔',
+    description: '符合國際製藥規範'
+  },
+  {
+    name: '植物纖維素膠囊',
+    icon: '✔',
+    description: '素食者適用'
+  }
+];
+
+//import all images
+const images = import.meta.glob<{ default: ImageMetadata }>('/public/images/*.{jpeg,jpg,png,gif,webp}');
+ 
+---
+
+<section class="max-w-3xl mx-auto py-24 bg-[url('/images/lab_bg.webp')] bg-cover bg-center bg-no-repeat bg-gray-700/60 bg-blend-overlay relative overflow-hidden z-10">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
+    <div class="mx-auto max-w-2xl text-center relative z-30">
+      <h2 class="text-5xl font-bold tracking-tight text-azure-100">
+        科學背書，安心首選
+      </h2>
+      <p class="mt-3 text-lg leading-8 text-azure-200">
+        以科學實證為基礎，嚴格把關每一個環節
+      </p>
+    </div>
+    <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mx-0 lg:max-w-none relative">
+      <div class="grid grid-cols-3 gap-8 relative z-30">
+        {certifications.map(cert => (
+          <div class="relative flex flex-col items-start rounded-2xl bg-azure-400/40 backdrop-blur-[2px] p-8 shadow-lg">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-azure-600 text-xl text-azure-200">
+              {cert.icon}
+            </div>
+            <h3 class="font-bold text-gray-100" style="font-size: clamp(0.5rem, 0.5rem + 0.5vw, 1.25rem);">{cert.name}</h3>
+            <p class="mt-2 text-left text-md text-gray-100">
+              {cert.description}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div class="absolute bottom-0 left-1/2 transform -translate-x-1/10 translate-y-1/4 w-full mx-auto z-20 fade-in" data-animation="fade-in">
+        <Image 
+          loading="lazy"
+          src="/images/pharmacist_alpha.webp" 
+          alt="Laboratory background" 
+          class="w-auto h-[56em]"
+          width={500}
+          height={500}
+          format="webp"
+          quality={90}
+        />
+      </div>
+      <div class="mt-16 flex justify-center relative z-30">
+        <div class="relative rounded-2xl bg-blue-600/40 px-6 py-8 sm:px-12">
+          <div class="relative">
+            <div class="flex items-center space-x-2 z-10">
+              <FlaskConical className="h-10 w-10 text-blue-700"/>
+              <h4 class="text-2xl font-bold text-blue-100">專業認證</h4>
+            </div>
+            <p class="text-lg mt-4 text-blue-50">
+              我們的產品通過多項國際認證，從原料選擇到生產製程，每一步都符合最嚴格的品質標準。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          // Reset animation when element leaves viewport
+          entry.target.addEventListener('animationend', () => {
+            entry.target.classList.add('reset');
+            setTimeout(() => {
+              entry.target.classList.remove('animate', 'reset');
+            }, 100);
+          });
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px'
+    });
+
+    document.querySelectorAll('.animate-on-scroll').forEach((element) => {
+      observer.observe(element);
+    });
+  });
+</script>
+
+<script>
+  // Initialize Intersection Observer for fade-in animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      } else {
+        entry.target.classList.remove('visible');
+      }
+    });
+  }, {
+    threshold: 0.25, // Trigger when 50% of the element is visible
+  });
+
+  // Observe all elements with fade-in class
+  document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+</script>

@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+const ingredients = [
+  {
+    name: '北歐深海紅藻萃取',
+    patent: 'EPAX®',
+    description: '含獨特抗氧化酵素，實驗證實能減少自由基損傷達67%',
+    icon: '🌊'
+  },
+  {
+    name: '日本專利薑黃素',
+    patent: 'C3 Super Blend®',
+    description: '奈米微粒化處理，吸收率較傳統薑黃素提升8倍',
+    icon: '🌿'
+  },
+  {
+    name: '瑞士高山植物複合酶',
+    description: '模擬16小時斷食效果，啟動細胞自噬機制',
+    icon: '🏔️'
+  },
+  {
+    name: '智利有機瑪卡根',
+    description: '含18種胺基酸，支援能量代謝與內分泌平衡',
+    icon: '🌱'
+  }
+];
+
+//import all images
+const images = import.meta.glob<{ default: ImageMetadata }>('/public/images/*.{jpeg,jpg,png,gif,webp}');
+---
+
+<section class="relative py-24 bg-gray-600 max-w-3xl mx-auto center bg-[url('/images/product_background_section.webp')] bg-cover bg-center bg-no-repeat">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-5xl font-bold tracking-tight text-azure-600 drop-shadow-md">
+        核心成分解密
+      </h2>
+      <p class="mt-6 text-lg leading-8 text-gray-600">
+        6大頂級天然成分+奈米微導技術
+      </p>
+    </div>
+    <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+      <div class="lg:pr-8">
+        <div class="lg:max-w-lg">
+          <dl class="mx-8 max-w-xl space-y-8 leading-7 text-gray-600">
+            {ingredients.map(ingredient => (
+              <div class="relative">
+                <dt class="inline-block font-bold text-gray-100">
+                  <span class="mr-2 text-2xl">{ingredient.icon}</span>
+                  <span class="text-xl drop-shadow-md text-azure-600">{ingredient.name}</span>
+                  {ingredient.patent && (
+                    <span class="ml-2 text-sm text-azure-800/40">
+                      {ingredient.patent}
+                    </span>
+                  )}
+                </dt>
+                <dd class="mt-2 pl-10">{ingredient.description}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+      <div class="flex items-center justify-center">
+        <div class="relative h-[300px] w-[300px] rounded-full bg-gradient-to-r from-blue-100/20 to-teal-100/20">
+          <div class="absolute inset-4 rounded-full bg-gradient-to-r from-blue-500 to-teal-500 opacity-40"></div>
+          <div class="absolute inset-8 rounded-full bg-gradient-to-r from-blue-200 to-teal-200 opacity-60"></div>
+          <!-- Placeholder for product image -->
+          <div class="absolute inset-0 flex items-center justify-center animate-float rotate-12">
+            <Image 
+              src={images['/public/images/product_shot_rmbg_alt.webp']()} 
+              alt="BioNova超能複方菁萃膠囊產品圖" 
+              width={200} 
+              height={200} 
+              class="drop-shadow-2xl" 
+              loading="eager" 
+              format="webp" 
+              quality={90} 
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

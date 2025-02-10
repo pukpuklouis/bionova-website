@@ -1,0 +1,139 @@
+---
+import { Button } from '@heroui/button'; 
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Benefit {
+  text: string;
+  color: string;
+}
+
+const benefits: Benefit[] = [
+  { text: '疲勞代謝', color: 'from-brand-primary to-transparent' },
+  { text: '防護屏障', color: 'from-brand-primary to-transparent' },
+  { text: '青春凍齡', color: 'from-brand-primary to-transparent' },
+  { text: '夜間修復', color: 'from-brand-primary to-transparent' }
+];
+
+// Import images
+const images = import.meta.glob<{ default: ImageMetadata }>('/public/images/*.{jpeg,jpg,png,gif,webp}');
+---
+
+<section class="relative isolate min-h-screen overflow-hidden max-w-3xl mx-auto bg-brand-bg-primary">
+  <!-- Background elements -->
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-0 bg-gradient-to-b from-brand-bg-primary via-brand-bg-secondary to-white">
+      <!-- Water ripple effects with reduced complexity -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--tw-gradient-from),transparent_70%)] opacity-60"></div>
+      <!-- Simplified animated water waves -->
+      <div class="absolute bottom-0 left-0 right-0 h-64 bg-gradient-water from-transparent to-brand-bg-secondary/30 motion-safe:animate-wave"></div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="relative px-6 py-12 bg-[url('/images/bg_image.webp')] bg-cover bg-center bg-no-repeat">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white/80"></div>
+    
+    <div class="relative flex flex-col items-center">
+      <!-- Hero content -->
+      <div class="text-center space-y-6 mb-12">
+        <!-- Main heading -->
+        <div class="motion-safe:animate-slide-up">
+          <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+            <span class="block text-brand-text-primary drop-shadow-lg">BioNova</span> 
+            <span class="flex items-center block bg-gradient-to-b from-emerald-300 to-chartreuse-700 text-transparent bg-clip-text drop-shadow-xl mt-2">
+              超能複方  
+              <span class="block bg-gradient-to-b from-island-300 to-island-700 bg-clip-text text-transparent drop-shadow-xl">菁萃膠囊</span>
+            </span>
+          </h1>
+          <p class="text-xl md:text-2xl text-brand-text-secondary mt-4 drop-shadow-xl">
+            一顆膠囊，喚醒全身年輕力！
+          </p>
+        </div>
+
+        <!-- Product image with optimized loading -->
+        <div class="relative mt-8 mb-4">
+          <div class="relative z-10 animate-float">
+            <Image
+              src={images['/public/images/product_shot_rmbg_alt.webp']()}
+              alt="BioNova超能複方菁萃膠囊產品圖"
+              width={450}
+              height={450}
+              class="mx-auto drop-shadow-2xl"
+              loading="lazy"
+              format="webp"
+              quality={90}
+            />
+            <!-- Optimized reflection effect -->
+            <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 w-48 h-24 bg-gradient-water from-brand-bg-secondary/40 to-transparent blur-md transform scale-y-50 opacity-60"></div>
+          </div>
+        </div>
+        
+        <!-- Benefits grid with improved accessibility -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-16" role="list">
+          {benefits.map((benefit, index) => (
+            <div 
+              class="relative group motion-safe:animate-scale-in"
+              style={`animation-delay: ${index * 100}ms`}
+              role="listitem"
+            >
+              <div class={`w-20 h-20 mx-auto rounded-full bg-gradient-to-br ${benefit.color} flex items-center justify-center transform transition-all duration-300 hover:scale-105 shadow-card hover:shadow-hover`}>
+                <span class="text-white text-sm font-medium drop-shadow-lg">{benefit.text}</span>
+              </div>
+              <div class={`absolute inset-0 w-20 h-20 mx-auto rounded-full bg-gradient-to-br ${benefit.color} blur-xl opacity-30 -z-10`}></div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Product features -->
+        <p class="text-lg text-brand-text-secondary mt-8 font-medium motion-safe:animate-fade-in">
+          6大頂級天然成分 + 奈米微導技術
+        </p>
+
+        <!-- CTA Button with improved accessibility -->
+        <div class="flex justify-center mt-8 motion-safe:animate-slide-up">
+          <Button 
+            client:load
+            radius="full"
+            color="brand-accent-dark"
+            size="lg"
+            variant="solid"
+            disableRipple={false}
+            className="flex items-center justify-center   bg-brand-primary hover:bg-brand-secondary-dark text-white font-bold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl hover:shadow-brand-primary/20 min-w-[16em]"
+            aria-label="立即購買BioNova超能複方菁萃膠囊"
+          >
+            立即搶購
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke-width="2" 
+              stroke="currentColor" 
+              class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300"
+              aria-hidden="true"
+            >
+              <path 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" 
+              />
+            </svg>
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .animate-wave {
+      animation: wave 10s cubic-bezier(0.36, 0, 0.66, -0.56) infinite;
+    }
+    
+    @keyframes wave {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+  }
+</style>

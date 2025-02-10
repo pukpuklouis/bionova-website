@@ -1,0 +1,58 @@
+---
+const faqs = [
+  {
+    question: '需要每天吃嗎？',
+    answer: '建議每日1-2粒隨餐服用，生理期/哺乳期可正常使用。'
+  },
+  {
+    question: '會與藥物衝突嗎？',
+    answer: '本產品為食品級，但若長期服用處方藥，建議諮詢醫師。'
+  },
+  {
+    question: '有副作用嗎？',
+    answer: '本產品採用天然成分，通過SGS安全檢測，一般人使用安全無虞。如有特殊體質或疑慮，建議先諮詢醫師。'
+  },
+  {
+    question: '保存期限多久？',
+    answer: '常溫下可保存2年，建議存放於陰涼乾燥處，開封後請於3個月內食用完畢。'
+  }
+];
+---
+
+<section class="max-w-3xl mx-auto px-4 py-24 sm:px-6 lg:px-8 bg-[url('/images/testimonial_bg.webp')] bg-cover bg-center bg-no-repeat bg-blend-multiply bg-gray-100" aria-labelledby="faq-title">
+  <div class="mx-auto max-w-2xl text-center">
+    <h2 id="faq-title" class="text-5xl font-bold tracking-tight text-chartreuse-600 ">
+      常見問題
+    </h2>
+    <p class="mt-6 text-lg leading-8 text-gray-600">
+      為您解答產品相關疑問
+      </p>
+    </div>
+    <div class="mx-auto mt-16 max-w-2xl">
+      <dl class="space-y-8">
+        {faqs.map((faq, index) => (
+          <div class="rounded-xl  p-8 shadow-md ring-2 ring-chartreuse-900/10 bg-chartreuse-900/40">
+            <dt>
+              <button
+                type="button"
+                class="flex w-full items-start justify-between text-left"
+                aria-controls={`faq-answer-${index}`}
+                aria-expanded="true"
+              >
+                <span class="text-xl font-bold leading-7 text-chartreuse-900/80">
+                  {faq.question}
+                </span>
+              </button>
+            </dt>
+            <dd
+              class="mt-4 text-base leading-7 text-chartreuse-50"
+              id={`faq-answer-${index}`}
+            >
+              {faq.answer}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>

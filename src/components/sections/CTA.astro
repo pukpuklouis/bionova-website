@@ -1,0 +1,101 @@
+---
+import {Button} from '@heroui/button';
+
+interface Props {
+  variant?: 'primary' | 'secondary';
+}
+
+const { variant = 'primary' } = Astro.props;
+
+const offers = [
+  {
+    title: '首購專案',
+    description: '買3盒送1盒',
+    price: '每日不到35元',
+    features: [
+      '隨身藥盒（矽膠抗菌款）',
+      '夜間修復配方試用包（價值$399）'
+    ]
+  }
+];
+---
+
+<section class:list={[
+  'relative isolate px-6 py-24 sm:py-32 lg:px-8 max-w-3xl mx-auto',
+  {
+    'bg-gradient-to-br from-azure-400 to-azure-100/90': variant === 'primary',
+    'bg-[url(/images/testimonial_bg.webp)] bg-cover bg-bottom bg-no-repeat': variant === 'secondary'
+  }
+]}>
+  <div class="mx-auto max-w-2xl text-center">
+    <h2 class="text-5xl font-bold tracking-tight text-azure-500 drop-shadow-xl">
+      {variant === 'primary' ? '限時優惠組合' : '立即行動'}
+    </h2>
+    {variant === 'secondary' && (
+      <p class="mt-4 text-lg text-azure-900">
+        最後23組現貨，錯過恢復原價$1980
+      </p>
+    )}
+  </div>
+
+  {variant === 'primary' && (
+    <div class="mx-auto mt-16 max-w-lg rounded-3xl bg-gray-700/70 ring-1 ring-gray-100 sm:mt-20">
+      {offers.map(offer => (
+        <div class="p-8 sm:p-10">
+          <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {offer.title}
+          </h3>
+          <p class="mt-6 flex items-baseline gap-x-2">
+            <span class="text-lg font-semibold leading-6 text-gray-600 dark:text-gray-300">
+              {offer.description}
+            </span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+              ({offer.price})
+            </span>
+          </p>
+          <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 dark:text-gray-300">
+            {offer.features.map(feature => (
+              <li class="flex gap-x-3">
+                <svg class="h-6 w-5 flex-none text-blue-600 dark:text-blue-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+          <Button 
+          client:load
+          radius="full"
+          className="bg-brand-accent-dark mt-8 w-full text-gray-100"
+          size="lg"
+          variant="solid" 
+          disableRipple={false}
+          aria-label="立即購買BioNova超能複方菁萃膠囊"
+      >
+            立即選購
+          </Button>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {variant === 'secondary' && (
+    <div class="mt-10 flex items-center justify-center gap-x-6">
+      <Button 
+      link="/"
+      client:load
+      radius="full"
+      className="bg-brand-accent-dark text-gray-100 font-semibold"
+      size="lg"
+      variant="solid" 
+      disableRipple={false}
+      aria-label="立即購買BioNova超能複方菁萃膠囊"
+      >
+        立即選購
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="ml-2 h-4 w-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+        </svg>
+      </Button>
+    </div>
+  )}
+</section>
